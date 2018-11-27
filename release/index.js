@@ -1,5 +1,5 @@
 /**
- * ngx-charts v"10.0.0" (https://github.com/swimlane/ngx-charts)
+ * ngx-charts v"10.0.0-custom" (https://github.com/swimlane/ngx-charts)
  * Copyright 2016
  * Licensed under MIT
  */
@@ -6551,13 +6551,13 @@ var BubbleSeriesComponent = /** @class */ (function () {
                     _this.colors.getColor(seriesName);
                 var isActive = !_this.activeEntries.length ? true : _this.isActive({ name: seriesName });
                 var opacity = isActive ? 1 : 0.3;
-                var data = {
+                var data = Object.assign({}, d, {
                     series: seriesName,
                     name: d.name,
                     value: d.y,
                     x: d.x,
                     radius: d.r
-                };
+                });
                 return {
                     data: data,
                     x: x,
@@ -8307,11 +8307,11 @@ var CircleSeriesComponent = /** @class */ (function () {
         else {
             color = this.colors.getColor(seriesName);
         }
-        var data = {
+        var data = Object.assign({}, d, {
             series: seriesName,
             value: value,
             name: label
-        };
+        });
         return {
             classNames: ["circle-data-" + i],
             value: value,
@@ -9129,7 +9129,7 @@ var GridPanelSeriesComponent = /** @class */ (function () {
     };
     GridPanelSeriesComponent.prototype.getGridPanels = function () {
         var _this = this;
-        return this.data.map(function (d, i) {
+        return this.data.map(function (d) {
             var offset;
             var width;
             var height;
@@ -10404,7 +10404,7 @@ var TooltipArea = /** @class */ (function () {
                 else {
                     color = this.colors.getColor(group.name);
                 }
-                results.push({
+                var data = Object.assign({}, item, {
                     value: val,
                     name: label,
                     series: groupName,
@@ -10412,6 +10412,7 @@ var TooltipArea = /** @class */ (function () {
                     max: item.max,
                     color: color
                 });
+                results.push(data);
             }
         }
         return results;
@@ -17385,11 +17386,11 @@ var PolarSeriesComponent = /** @class */ (function () {
             var r = _this.getRadius(d);
             var value = d.value;
             var color = _this.colors.getColor(linearScaleType ? Math.abs(value) : seriesName);
-            var cData = {
+            var cData = Object.assign({}, d, {
                 series: seriesName,
                 value: value,
                 name: d.name
-            };
+            });
             return {
                 data: cData,
                 cx: r * Math.sin(a),
